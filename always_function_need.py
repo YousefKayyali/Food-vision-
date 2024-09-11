@@ -17,11 +17,20 @@ import itertools
 import json
 from sklearn.metrics  import f1_score
 
-def image_data_augmentation_Dataset(image,label):
+def image_data_augmentation_Dataset(image,label,size=(224,224),scale=False,num_parallel_calls=tf.data.AUTOTUNE):
+    image=tf.image.resize(image,size=size)
+    if scale:
+        image=image/225.0
     image=tf.image.random_brightness(image,0.6)
     image=tf.image.random_flip_up_down(image,)
     image=tf.image.random_flip_left_right(image)
     return image,label
+
+
+
+
+
+
 def loss_accuracy_plot(history:tf.keras.callbacks.History):
     loss_traing=history.history['loss']
     loss_val=history.history['val_loss']
@@ -75,9 +84,9 @@ def create_tensorbord_callback(dir_name, experiment):
     return tensorboard_callback
 
 def viwe_random_image_fdir(path,target):
-  target_path=path+'/'+target
+  target_path=path+'\\'+target
   random_image=random.sample(os.listdir(target_path),k=1)
-  img=plt.imread(target_path+'/'+random_image[0],format='jpg')
+  img=plt.imread(target_path+'\\'+random_image[0],format='jpg')
   print(type(img))
   print(img.shape)
   plt.imshow(img)
