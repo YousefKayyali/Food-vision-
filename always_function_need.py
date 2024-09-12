@@ -17,16 +17,20 @@ import itertools
 import json
 from sklearn.metrics  import f1_score
 
-def image_data_augmentation_Dataset(image,label,size=(224,224),scale=False,num_parallel_calls=tf.data.AUTOTUNE):
-    image=tf.image.resize(image,size=size)
+image,label,size=(224,224),scale=False,num_parallel_calls=tf.data.AUTOTUNE:
+from tensorflow.keras import layers
+def image_aug(img,label,scale=True):
+    '''
+    data augmantaion function for data set instance
+    '''
     if scale:
-        image=image/225.0
-    image=tf.image.random_brightness(image,0.6)
-    image=tf.image.random_flip_up_down(image,)
-    image=tf.image.random_flip_left_right(image)
-    return image,label
-
-
+        img=tf.keras.layers.Rescaling(1.0/255)(img)
+    img=layers.RandomFlip()(img)
+    img=layers.RandomBrightness(factor=0.6,value_range=(0,1))(img)
+    img=layers.RandomRotation(factor=(-0.3,0.2))(img)
+    img=layers.RandomZoom(height_factor=(-0.2,-0.3),width_factor=(-0.2,-0.3))(img)
+    img=layers.RandomContrast(factor=1)(img)
+    return img,label
 
 
 
@@ -77,6 +81,11 @@ def create_target_class_folder(parint_folder,new_subfolder,image_folder,data_set
     return paths
 import datetime
 def create_tensorbord_callback(dir_name, experiment):
+    ''' 
+    take the name path of dir to save it and the exprinment to name the model and save log in that file 
+    
+    
+    '''
     log_dir = os.path.join(dir_name, experiment, datetime.datetime.now().strftime("%Y%m%d-%H%M%S"))
     tensorboard_callback=tf.keras.callbacks.TensorBoard(log_dir=log_dir,histogram_freq=1,write_graph=True,write_images=True,
     update_freq='epoch', )
@@ -93,11 +102,16 @@ def viwe_random_image_fdir(path,target):
   plt.axis(False)
   return img
 def create_check_point_inst(expr:str,save_best=True):
+    '''
+    in this project folder we just take the expr name and not need to full path dir
+    save best model by defualts you can change it 
+    we just save wights not all model 
+    '''
     checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=r'check_point\\'+expr,
     save_best_only=save_best,
     monitor='val_loss',
-    verbose=1,
+    verbose=0,
     save_weights_only=True
     )
     return checkpoint_callback
