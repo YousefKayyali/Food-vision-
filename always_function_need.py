@@ -16,8 +16,6 @@ from sklearn.metrics  import precision_score
 import itertools
 import json
 from sklearn.metrics  import f1_score
-
-image,label,size=(224,224),scale=False,num_parallel_calls=tf.data.AUTOTUNE:
 from tensorflow.keras import layers
 def image_aug(img,label,scale=True):
     '''
