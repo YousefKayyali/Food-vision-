@@ -114,21 +114,7 @@ def create_check_point_inst(expr:str,save_best=True):
     )
     return checkpoint_callback
 def get_percent_images(target_dir, new_dir, sample_amount=0.1, random_state=42):
-    """
-    Get sample_amount percentage of random images from target_dir and copy them to new_dir.
-    
-    Preserves subdirectory file names.
-    
-    E.g. target_dir=pizza_steak/train/steak/all_files 
-                -> new_dir_name/train/steak/X_percent_of_all_files
-                
-    Parameters
-    --------
-    target_dir (str) - file path of directory you want to extract images from
-    new_dir (str) - new directory path you want to copy original images to
-    sample_amount (float), default 0.1 - percentage of images to copy (e.g. 0.1 = 10%)
-    random_state (int), default 42 - random seed value 
-    """
+
     # Set random seed for reproducibility
     random.seed(random_state)
     
@@ -261,9 +247,9 @@ def evluate_on_diff_metrix(true_labels,prdications):
 def score_classes(metrix_type:str,class_name,scores):
     plt.figure(figsize=(20,20))
     plt.barh(range(len(scores)),scores*100,height=0.7)
-    plt.yticks(ticks=range(len(scores)),labels=class_name);
+    #plt.yticks(ticks=range(len(scores)),labels=class_name);
     plt.xlabel(f"{metrix_type} score")
     plt.title(f"{metrix_type} score for diff 101 class")
     for i, score in enumerate(scores):
-        plt.text(score * 100 + 0.5, i, f"{score * 100:.1f}%", va='center', fontsize=10)
+        plt.text(score * 100 + 0.5, i, f"{score * 100:.1f}% {class_name[i]}", va='center', fontsize=10)
     plt.show()
