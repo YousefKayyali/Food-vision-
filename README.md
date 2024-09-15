@@ -11,4 +11,4 @@ This project utilizes deep learning techniques for food image recognition. The m
 - **Deep Learning Model**: Utilizes a Convolutional Neural Network (CNN) for feature extraction and fine-tuning.
 - **Dataset**: Trained on a subset (10%) initially, followed by training on the complete dataset for comprehensive learning.
 ## Data source 
-[Link Text](https://www.kaggle.com/datasets/dansbecker/food-101)
+[data](https://www.kaggle.com/datasets/dansbecker/food-101)
